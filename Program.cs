@@ -11,3 +11,16 @@
 //3 - l’attuale incasso generato dall’utilizzo delle macchine.
 
 using System;
+
+Lavatrice lavatrice = new Lavatrice(5);
+
+public class Lavatrice
+{
+    
+    public Lavatrice(int id)
+    {
+
+
+    }
+
+}
