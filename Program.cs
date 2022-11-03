@@ -12,15 +12,47 @@
 
 using System;
 
-Lavatrice lavatrice = new Lavatrice(5);
+Lavatrice lavatrice = new Lavatrice("");
+Asciugatrice asciugatrice = new Asciugatrice("", false);
+
+// creazione classe lavatrice
 
 public class Lavatrice
 {
-    
-    public Lavatrice(int id)
+    //costruttore
+    public Lavatrice(string nome)
     {
-
-
+        Nome = nome;
+        Random random = new Random();
+        var randomBool = random.Next(2) == 1; // 0 = false, 1 = true;
+        InFunzione = randomBool;
+        QuantitaDetersivo = random.Next(1001);
+        QuantitaAmmorbidente = random.Next(501);
+        IncassoTotale = random.Next(501) * 0.50f;
     }
 
+    //properties
+    public string Nome { get; }
+    public bool InFunzione { get; }
+    public int QuantitaDetersivo { get; }
+    public int QuantitaAmmorbidente { get; }
+    public float IncassoTotale { get; }
+}
+
+//creazione classe asciugatrice
+public class Asciugatrice
+{
+    //costruttore
+    public Asciugatrice(string nome, bool inFunzione)
+    {
+        Nome = nome;
+        Random random = new Random();
+        InFunzione = inFunzione;
+        IncassoTotale = random.Next(1, 101) * 0.50f;
+    }
+
+    //properties
+    public string Nome { get; }
+    public bool InFunzione { get; }
+    public float IncassoTotale { get; }
 }
