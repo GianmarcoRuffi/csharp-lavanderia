@@ -12,8 +12,20 @@
 
 using System;
 
-Lavatrice lavatrice = new Lavatrice("");
-Asciugatrice asciugatrice = new Asciugatrice("", false);
+// oggetti macchine
+
+Lavatrice lavatrice1 = new Lavatrice("Lavatrice 1");
+Lavatrice lavatrice2 = new Lavatrice("Lavatrice 2");
+Lavatrice lavatrice3 = new Lavatrice("Lavatrice 3");
+Lavatrice lavatrice4 = new Lavatrice("Lavatrice 4");
+Lavatrice lavatrice5 = new Lavatrice("Lavatrice 5");
+
+
+Asciugatrice asciugatrice1 = new Asciugatrice("Asciugatrice 1", true);
+Asciugatrice asciugatrice2 = new Asciugatrice("Asciugatrice 2", true);
+Asciugatrice asciugatrice3 = new Asciugatrice("Asciugatrice 3", false);
+Asciugatrice asciugatrice4 = new Asciugatrice("Asciugatrice 4", false);
+Asciugatrice asciugatrice5 = new Asciugatrice("Asciugatrice 5", false);
 
 // creazione classe lavatrice
 
