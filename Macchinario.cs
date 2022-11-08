@@ -12,11 +12,11 @@
 
 public abstract class Macchinario 
 {
-    public string Nome { get; set; }
-    public int Gettoni { get; set; }
-    public bool Stato { get; set; }
-    public double Incasso()
-    {
-        return (double)Gettoni * 0.50;
-    }
+    public abstract string Nome { get; }
+
+    public abstract int Durata { get; set; }
+
+    public abstract string Stato { get; set; }
+
+    public abstract int CostoLavaggio { get; set; }
 }

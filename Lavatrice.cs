@@ -10,17 +10,22 @@
 //2 - Possa essere richiesto il dettaglio di una macchina: Tutte le informazioni relative alla macchina, nome del macchinario, stato del macchinario (in funzione o no), tipo di lavaggio in corso, quantità di detersivo presente (se una lavatrice), durata del lavaggio, tempo rimanente alla fine del lavaggio.
 //3 - l’attuale incasso generato dall’utilizzo delle macchine.
 
-public class Lavatrice
+public class Lavatrice : Macchinario
 {
-    public string Nome { get; }
-    public int Durata { get; set; }
+
+    public override string Nome { get; }
+
+    public override int Durata { get; set; }
+
+    public override string Stato { get; set; }
+
+    public override int CostoLavaggio { get; set; }
+
     public int ConsumoDetersivo { get; set; }
     public int ConsumoAmmorbidente { get; set; }
-
-    public int CostoLavaggio { get; set; }
-    public int Detersivo { get; set; }
+ public int Detersivo { get; set; }
     public int Ammorbidente { get; set; }
-    public string Stato { get; set; }
+
 
 
     public Lavatrice(string nome)
