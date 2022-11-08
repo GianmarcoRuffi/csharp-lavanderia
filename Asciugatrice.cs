@@ -10,48 +10,74 @@
 //2 - Possa essere richiesto il dettaglio di una macchina: Tutte le informazioni relative alla macchina, nome del macchinario, stato del macchinario (in funzione o no), tipo di lavaggio in corso, quantità di detersivo presente (se una lavatrice), durata del lavaggio, tempo rimanente alla fine del lavaggio.
 //3 - l’attuale incasso generato dall’utilizzo delle macchine.
 
-using System;
-
-Lavanderia lavanderia = new Lavanderia();
-lavanderia.StartLavatrici();
-lavanderia.StartAsciugatrici();
-
-
-Console.WriteLine("Selezione del programma");
-Console.WriteLine("1 - stato generale di utilizzo delle macchine");
-Console.WriteLine("2 - dettaglio delle macchine");
-Console.WriteLine("3 - attuale incasso generato dall'utilizzo delle macchine");
-
-
-
-int userInput = Convert.ToInt32(Console.ReadLine());
-
-
-switch (userInput)
-
+public class Asciugatrice
 {
-    case 1:
-        lavanderia.StatoMacchine();
-        break;
+    public string Nome { get; }
+    public int Durata { get; set; }
+    public string Stato { get; set; }
 
-    case 2:
+    public int CostoLavaggio { get; set; }
+    //public double Incasso { get; set; }
+    public Asciugatrice(string nome)
+    {
+        this.Nome = nome;
+        this.Stato = "vuota";
 
-        for (int i = 0; i < 5; i++)
+    }
 
-           
+    public void Rapido()
+    {
+        Durata = 30;
+        CostoLavaggio = 2;
+        Stato = "Rapido";
 
+    }
+    public void Intenso()
+    {
+        Durata = 60;
+        CostoLavaggio = 4;
+        Stato = "Intenso";
+    }
+    public void StampaDettagli()
+    {
+        int durataPassata = 0;
+        if (Durata != 0)
         {
-            lavanderia.DettagliMacchina("lavatrice", i);
-            lavanderia.DettagliMacchina("asciugatrice", i);
+            Random random = new Random();
+            durataPassata = random.Next(1, (Durata - 5));
+        }
+        else
+            durataPassata = 0;
+
+
+        string vuota = "Spenta";
+
+        if (Stato != "vuota")
+        {
+            vuota = "Accesa";
         }
 
-        break;
+        Console.WriteLine("-------------");
+        Console.WriteLine("Nome macchina: " + Nome);
+        Console.WriteLine("Stato: " + vuota);
+        Console.WriteLine("Programma: " + Stato);
+        Console.WriteLine("Durata totale asciugatura: " + Durata);
+        Console.WriteLine("Tempo rimasto alla fine del lavaggio: " + (Durata - durataPassata));
+    }
+    public void Asciugatura()
+    {
+        Random random = new Random();
+        int sceltaLavaggio = random.Next(1, 5);
 
-    case 3:
-       
-        Console.WriteLine("Incassi:");
-        Console.WriteLine("Totale: " + lavanderia.Incasso() + "euro");
-        break;
-    
- 
+        if (sceltaLavaggio == 1)
+            Rapido();
+        else if (sceltaLavaggio == 2)
+            Intenso();
+
+    }
+
+    public double Incasso()
+    {
+        return CostoLavaggio * 0.50;
+    }
 }
