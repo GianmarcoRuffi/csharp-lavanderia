@@ -12,77 +12,286 @@
 
 using System;
 
-// oggetti macchine
-
-Lavatrice lavatrice1 = new Lavatrice("Lavatrice 1");
-Lavatrice lavatrice2 = new Lavatrice("Lavatrice 2");
-Lavatrice lavatrice3 = new Lavatrice("Lavatrice 3");
-Lavatrice lavatrice4 = new Lavatrice("Lavatrice 4");
-Lavatrice lavatrice5 = new Lavatrice("Lavatrice 5");
+Lavanderia lavanderia = new Lavanderia();
+lavanderia.StartLavatrici();
+lavanderia.StartAsciugatrici();
 
 
-Asciugatrice asciugatrice1 = new Asciugatrice("Asciugatrice 1", true);
-Asciugatrice asciugatrice2 = new Asciugatrice("Asciugatrice 2", true);
-Asciugatrice asciugatrice3 = new Asciugatrice("Asciugatrice 3", false);
-Asciugatrice asciugatrice4 = new Asciugatrice("Asciugatrice 4", false);
-Asciugatrice asciugatrice5 = new Asciugatrice("Asciugatrice 5", false);
+Console.WriteLine("Selezione del programma");
+Console.WriteLine("1 - stato generale di utilizzo delle macchine");
+Console.WriteLine("2 - dettaglio delle macchine");
+Console.WriteLine("3 - attuale incasso generato dall'utilizzo delle macchine");
 
-// creazione classe lavatrice
 
+
+int userInput = Convert.ToInt32(Console.ReadLine());
+
+
+switch (userInput)
+
+{
+    case 1:
+        lavanderia.StatoMacchine();
+        break;
+
+    case 2:
+
+        for (int i = 0; i < 5; i++)
+
+           
+
+        {
+            lavanderia.DettagliMacchina("lavatrice", i);
+            lavanderia.DettagliMacchina("asciugatrice", i);
+        }
+
+        break;
+
+    case 3:
+       
+        Console.WriteLine("Incassi:");
+        Console.WriteLine("Totale: " + lavanderia.Incasso() + "euro");
+        break;
+    
+ 
+}
+public class Lavanderia
+{
+    public Lavanderia()
+    {
+        lavatrici = new Lavatrice[5];
+        asciugatrici = new Asciugatrice[5];
+
+        for (int i = 0; i < 5; i++)
+        {
+            lavatrici[i] = new Lavatrice("Lavatrice" + (i + 1));
+            asciugatrici[i] = new Asciugatrice("Asciugatrice" + (i + 1));
+
+        }
+    }
+    private Lavatrice[] lavatrici;
+    private Asciugatrice[] asciugatrici;
+
+    public void StatoMacchine()
+    {
+        Console.WriteLine("Stato: ");
+        for (int i = 0; i < 5; i++)
+        {
+            Console.WriteLine(lavatrici[i].Nome + ": " + lavatrici[i].Stato);
+            Console.WriteLine(asciugatrici[i].Nome + ": " + asciugatrici[i].Stato);
+        }
+
+    }
+    public void DettagliMacchina(string macchina, int numero)
+    {
+        if (macchina == "lavatrice")
+            lavatrici[numero].StampaDettagli();
+        else
+            asciugatrici[numero].StampaDettagli();
+    }
+    public interface IIncasso
+    {
+        public double Incasso();
+    }
+
+
+    public double Incasso()
+    {
+        double incassoTotale = 0;
+        for (int i = 0; i < lavatrici.Length; i++)
+        {
+            Console.WriteLine(lavatrici[i].Nome + ": " + lavatrici[i].Incasso() + "$");
+            Console.WriteLine(asciugatrici[i].Nome + ": " + asciugatrici[i].Incasso() + "$");
+            incassoTotale = incassoTotale + lavatrici[i].Incasso() + asciugatrici[i].Incasso();
+        }
+
+        return incassoTotale;
+    }
+
+
+    public void StartLavatrici()
+    {
+        for (int i = 0; i < lavatrici.Length; i++)
+        {
+
+            lavatrici[i].Lavaggio();
+
+        }
+    }
+    public void StartAsciugatrici()
+    {
+        for (int i = 0; i < asciugatrici.Length; i++)
+        {
+
+            asciugatrici[i].Asciugatura();
+
+        }
+    }
+
+}
 public class Lavatrice
 {
-    //costruttore
+    public string Nome { get; }
+    public int Durata { get; set; }
+    public int ConsumoDetersivo { get; set; }
+    public int ConsumoAmmorbidente { get; set; }
+
+    public int CostoLavaggio { get; set; }
+    public int Detersivo { get; set; }
+    public int Ammorbidente { get; set; }
+    public string Stato { get; set; }
+
+
     public Lavatrice(string nome)
     {
-        Nome = nome;
-        Random random = new Random();
-        var randomBool = random.Next(2) == 1; // 0 = false, 1 = true;
-        InFunzione = randomBool;
-        QuantitaDetersivo = random.Next(1001);
-        QuantitaAmmorbidente = random.Next(501);
-        IncassoTotale = random.Next(501) * 0.50f;
+        this.Nome = nome;
+        this.Detersivo = 1000;
+        this.Ammorbidente = 500;
+        this.Stato = "vuota";
     }
 
-    //properties
-    public string Nome { get; }
-    public bool InFunzione { get; }
-    public int QuantitaDetersivo { get; }
-    public int QuantitaAmmorbidente { get; }
-    public float IncassoTotale { get; }
+    public void Rinfrescante()
+    {
+        CostoLavaggio = 2;
+        Durata = 20;
+        ConsumoDetersivo = 20;
+        ConsumoAmmorbidente = 5;
+        Stato = "Rinfrescante";
+    }
+    public void Rinnovante()
+    {
+        CostoLavaggio = 3;
+        Durata = 40;
+        ConsumoDetersivo = 40;
+        ConsumoAmmorbidente = 10;
+        Stato = "Rinnovante";
+    }
+    public void Sgrassante()
+    {
+        CostoLavaggio = 4;
+        Durata = 60;
+        ConsumoDetersivo = 60;
+        ConsumoAmmorbidente = 15;
+        Stato = "Sgrassante";
+    }
+    public void Lavaggio()
+    {
+        Random random = new Random();
+        int sceltaLavaggio = random.Next(1, 5);
+
+        if (sceltaLavaggio == 1)
+            Rinfrescante();
+        else if (sceltaLavaggio == 2)
+            Rinnovante();
+        else if (sceltaLavaggio == 3)
+            Sgrassante();
+
+    }
+
+
+    public void StampaDettagli()
+    {
+        int durataPassata = 0;
+        if (Durata != 0)
+        {
+            Random random = new Random();
+            durataPassata = random.Next(1, (Durata - 5));
+        }
+        else
+            durataPassata = 0;
+
+        string vuota = "Spenta";
+
+        if (Stato != "vuota")
+        {
+            vuota = "Accesa";
+        }
+
+        Console.WriteLine("-------------");
+        Console.WriteLine("Nome macchina: " + Nome);
+        Console.WriteLine("Stato: " + vuota);
+        Console.WriteLine("Lavaggio: " + Stato);
+        Console.WriteLine("Detersivo: " + (Detersivo - ConsumoDetersivo) + "ml");
+        Console.WriteLine("Ammorbidente: " + (Ammorbidente - ConsumoAmmorbidente) + "ml");
+        Console.WriteLine("Durata totale lavaggio: " + Durata);
+        Console.WriteLine("Tempo rimasto alla fine del lavaggio: " + (Durata - durataPassata));
+
+    }
+    public double Incasso()
+    {
+        return CostoLavaggio * 0.50;
+    }
 }
 
 
-//creazione classe programma lavatrice
-public class ProgrammaLavatrice
-{
-    private string nomeProgramma;
-    private int costo;
-    private int durata;
-    private int detersivo;
-    private int ammorbidente;
-
-    //properties
-    public string NomeProgramma { get; }
-    public bool InFunzione { get; }
-    public int SerbatoioDetersivo { get; }
-    public int SerbatoioAmmorbidente { get; }
-    public float Incasso { get; }
-}
-
-//creazione classe asciugatrice
 public class Asciugatrice
 {
-    //costruttore
-    public Asciugatrice(string nome, bool inFunzione)
+    public string Nome { get; }
+    public int Durata { get; set; }
+    public string Stato { get; set; }
+
+    public int CostoLavaggio { get; set; }
+    public double Incasso { get; set; }
+    public Asciugatrice(string nome)
     {
-        Nome = nome;
-        Random random = new Random();
-        InFunzione = inFunzione;
-        IncassoTotale = random.Next(1, 101) * 0.50f;
+        this.Nome = nome;
+        this.Stato = "vuota";
+
     }
 
-    //properties
-    public string Nome { get; }
-    public bool InFunzione { get; }
-    public float IncassoTotale { get; }
+    public void Rapido()
+    {
+        Durata = 30;
+        CostoLavaggio = 2;
+        Stato = "Rapido";
+
+    }
+    public void Intenso()
+    {
+        Durata = 60;
+        CostoLavaggio = 4;
+        Stato = "Intenso";
+    }
+    public void StampaDettagli()
+    {
+        int durataPassata = 0;
+        if (Durata != 0)
+        {
+            Random random = new Random();
+            durataPassata = random.Next(1, (Durata - 5));
+        }
+        else
+            durataPassata = 0;
+
+
+        string vuota = "Spenta";
+
+        if (Stato != "vuota")
+        {
+            vuota = "Accesa";
+        }
+
+        Console.WriteLine("-------------");
+        Console.WriteLine("Nome macchina: " + Nome);
+        Console.WriteLine("Stato: " + vuota);
+        Console.WriteLine("Programma: " + Stato);
+        Console.WriteLine("Durata totale asciugatura: " + Durata);
+        Console.WriteLine("Tempo rimasto alla fine del lavaggio: " + (Durata - durataPassata));
+    }
+    public void Asciugatura()
+    {
+        Random random = new Random();
+        int sceltaLavaggio = random.Next(1, 5);
+
+        if (sceltaLavaggio == 1)
+            Rapido();
+        else if (sceltaLavaggio == 2)
+            Intenso();
+
+    }
+
+    internal string Incasso()
+    {
+        throw new NotImplementedException();
+    }
 }
