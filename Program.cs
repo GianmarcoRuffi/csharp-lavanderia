@@ -51,6 +51,24 @@ public class Lavatrice
     public float IncassoTotale { get; }
 }
 
+
+//creazione classe programma lavatrice
+public class ProgrammaLavatrice
+{
+    private string nomeProgramma;
+    private int costo;
+    private int durata;
+    private int detersivo;
+    private int ammorbidente;
+
+    //properties
+    public string NomeProgramma { get; }
+    public bool InFunzione { get; }
+    public int SerbatoioDetersivo { get; }
+    public int SerbatoioAmmorbidente { get; }
+    public float Incasso { get; }
+}
+
 //creazione classe asciugatrice
 public class Asciugatrice
 {
